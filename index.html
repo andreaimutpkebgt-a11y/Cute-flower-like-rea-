@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Rea</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #050811;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif, Arial;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        /* Tulisan REA */
+        .title {
+            position: absolute;
+            top: 12%;
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #fff7a1;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffaa00, 0 0 40px #ffaa00;
+            letter-spacing: 4px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: dropTitle 1.5s 2.5s forwards ease-out;
+            z-index: 20;
+        }
+
+        /* Tangkai Bunga */
+        .stem {
+            position: absolute;
+            bottom: 30px;
+            width: 8px;
+            height: 0;
+            background: linear-gradient(to top, #0e3318, #2e8b57);
+            border-radius: 10px;
+            animation: growStem 2s 0.5s ease-out forwards;
+        }
+
+        /* Bunga Utama (Kuning Glow) */
+        .flower {
+            position: absolute;
+            bottom: 280px;
+            width: 120px;
+            height: 120px;
+            opacity: 0;
+            transform: scale(0);
+            animation: bloom 1.5s 2.2s ease-out forwards;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 35px;
+            height: 35px;
+            background: #ffaa00;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px #ffea00, 0 0 40px #ffea00;
+            z-index: 10;
+        }
+
+        .petal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 70px;
+            background: linear-gradient(to top, #ffd700, #fff7a1);
+            border-radius: 50px;
+            transform-origin: center bottom;
+            box-shadow: 0 0 15px rgba(255, 234, 0, 0.8);
+        }
+
+        .p1 { transform: translate(-50%, -100%) rotate(0deg); }
+        .p2 { transform: translate(-50%, -100%) rotate(45deg); }
+        .p3 { transform: translate(-50%, -100%) rotate(90deg); }
+        .p4 { transform: translate(-50%, -100%) rotate(135deg); }
+        .p5 { transform: translate(-50%, -100%) rotate(180deg); }
+        .p6 { transform: translate(-50%, -100%) rotate(225deg); }
+        .p7 { transform: translate(-50%, -100%) rotate(270deg); }
+        .p8 { transform: translate(-50%, -100%) rotate(315deg); }
+
+        /* Daun Bunga Utama */
+        .leaf {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            background: #1e5e3a;
+            border-radius: 100px 0px;
+            opacity: 0;
+            animation: fadeIn 1s 1.8s forwards;
+            box-shadow: 0 0 10px rgba(46, 139, 87, 0.5);
+        }
+
+        .leaf.left {
+            bottom: 130px;
+            left: calc(50% - 55px);
+            transform: rotate(-25deg);
+        }
+
+        .leaf.right {
+            bottom: 170px;
+            left: calc(50% + 5px);
+            transform: scaleX(-1) rotate(-25deg);
+        }
+
+        /* Area Rumput Banyak */
+        .grass-field {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .grass {
+            width: 6px;
+            height: 0;
+            background: linear-gradient(to top, #0a2310, #1b6334, #32a852);
+            border-radius: 50% 50% 0 0;
+            animation: growGrass 1.5s ease-out forwards;
+            transform-origin: bottom;
+        }
+
+        /* Variasi Rumput */
+        .grass:nth-child(1)  { animation-delay: 0.1s; transform: rotate(-10deg); }
+        .grass:nth-child(2)  { animation-delay: 0.3s; transform: rotate(5deg); }
+        .grass:nth-child(3)  { animation-delay: 0.2s; transform: rotate(-15deg); }
+        .grass:nth-child(4)  { animation-delay: 0.5s; transform: rotate(8deg); }
+        .grass:nth-child(5)  { animation-delay: 0.4s; transform: rotate(-5deg); }
+        .grass:nth-child(6)  { animation-delay: 0.6s; transform: rotate(12deg); }
+        .grass:nth-child(7)  { animation-delay: 0.2s; transform: rotate(-8deg); }
+        .grass:nth-child(8)  { animation-delay: 0.7s; transform: rotate(6deg); }
+        .grass:nth-child(9)  { animation-delay: 0.3s; transform: rotate(-12deg); }
+        .grass:nth-child(10) { animation-delay: 0.5s; transform: rotate(10deg); }
+        .grass:nth-child(11) { animation-delay: 0.8s; transform: rotate(-6deg); }
+        .grass:nth-child(12) { animation-delay: 0.4s; transform: rotate(14deg); }
+
+        /* Animasi */
+        @keyframes growStem {
+            0% { height: 0; }
+            100% { height: 260px; }
+        }
+
+        @keyframes bloom {
+            0% { opacity: 0; transform: scale(0) rotate(-45deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes growGrass {
+            0% { height: 0; }
+            100% { height: 70px; }
+        }
+
+        @keyframes dropTitle {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">Rea</div>
+
+        <div class="stem"></div>
+
+        <div class="leaf left"></div>
+        <div class="leaf right"></div>
+
+
